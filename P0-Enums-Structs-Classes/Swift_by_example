@@ -1,6 +1,6 @@
 ---
 title: Understanding Swift by example - Part 1: Structs
-slug: structs
+slug: structs-in-swift
 ---     
 
 At MakeSchool we have decided to switch from Objective-C to Swift for all of our new online content and courses. We get a lot of questions from the community regarding Swift:
