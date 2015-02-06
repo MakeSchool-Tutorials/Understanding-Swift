@@ -1,5 +1,5 @@
 ---
-title: Understanding Swift by example - Part 1: Structs
+title: "Understanding Swift by example - Part 1: Structs"
 slug: structs-in-swift
 ---     
 
