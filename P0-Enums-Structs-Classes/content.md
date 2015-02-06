@@ -87,7 +87,7 @@ Using the `let` keyword you can create an instance of `TodoItem` that cannot eve
 
 So far we have looked at the basics of structs in Swift, all of which are available in Objetive-C as well. Now we will dive into the more exciting features. In this section we will discuss features that make structs a great replacement of classes in many cases.
 
-##Structs can have initializers
+##Structs can have custom initializers
 
 Earlier we mentioned the default *memberwise* initializer which is very similar to initializing structs in Objetive-C. In Swift structs can have custom initializers. This is a broad topic because adding a custom initializer has a lot of side effects that we will discuss.
 
