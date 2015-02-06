@@ -1,0 +1,134 @@
+#Understanding Swift by example - Part 1: Structs
+
+At MakeSchool we have decided to switch from Objective-C to Swift for all of our new online content and courses. We get a lot of questions from the community regarding Swift:
+
+* Should I learn Swift or Objective-C?
+* Which of the two languages is easier to learn?
+* What are the differences between Objective-C and Swift?
+
+We will address all of these questions in a series of articles. Today I want to discuss some unique characteristics of the Swift programming language. Specifically we will be discussing structs. We will add further parts to this series until we have covered most of Swift's language features. As always we like to teach by example so you will be working with interactive playgrounds throughout this tutorial.
+
+Why are we starting this series with structs? It turns out that, unlike in Objective-C, structs are a very powerful tool in Swift and can be used instead of classes in many cases. Throughout this first tutoiral part we will discuss the most important characteristics of structs and when and how they can be used instead of classes.
+
+##What you need for this tutorial series
+* Knowledge in any object oriented programming language
+* (Optionally: Objective-C; we will use Objective-C for comparison reasons)
+* MacOS with an Xcode Version of 6.1.1 or higher
+
+##What you're going to learn in this part
+
+* Some basic Swift syntax and language concepts
+* What is new about structs in Swift? What is the same as in Objetive-C?
+* Difference between value and reference types
+
+#The Basics
+
+If you have programmend in C or Objective-C before you might be familiar with structs. However, structs in Swift are far more powerful than in C based languages. In Swift a struct is very similar to a class, you will learn the differences shortly. 
+
+##Defining a basic struct
+
+Let's start by defining a first struct in our playground:
+
+	struct TodoItem {
+	  var title: String
+	  var content: String
+	  var dueDate: NSDate
+	  let owner: String
+	}
+
+First and foremost a struct is a collection of variables. This struct models a todo entry. The general syntax for declaring variables in Swift is:
+
+1. `var` or `let` keyword
+2. variable name + `:`
+3. variable type 
+
+We will take about variables and types in detail in a later part of this tutorial series. Then you will learn that defining the type of a variable is not always necessary. For now however we will focus on the details of this struct.
+
+Variables that belong to a struct are called *members*. The struct has three `var` members: `title`, `content` and `dueDate`. The values of these members can be changed throughout the lifetime of an instance of `TodoItem`. The struct also has one `let` member. The `let` keyword marks constants in Swift. This means that the owner string cannot be changed after a `TodoItem` has been created. 
+
+##Initializing a basic struct 
+
+Here's how you create an instance of this `TodoItem` struct:
+
+	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(), owner:"User1")
+
+If your struct does not define its own initializer Swift provides a default *memberwise initializer*. That default initializer takes each of the fields of the struct as a parameter. This is also the default behavior for structs in Objective-C.
+
+##Modifying a struct
+
+By default modifying struct instances in Swift works the same way as modifying class instances.
+Assume a user would want to change the title of a todo item. We can use this straightforward syntax to modify members:
+
+	todoItem.title = "Get 2 Milk"
+	
+The playground should visualize that your struct has been updated correctly:
+
+![](modify_title.png) 
+
+Modifying the owner on the other hand will not work because the `owner` member was marked as constant. Try this:
+
+	todoItem.owner = "User25"
+
+And you will see an error:
+![](modify_owner.png) 
+
+You can also create immutable instances of a struct. This means that once the instance is created, none of the fields can be modified, not even the fields declared as `var`. This .
+Using the `let` keyword you can create an instance of `TodoItem` that cannot ever be modified:
+
+	let unchangeableTodoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate()	owner:"User1") 
+	unchangeableTodoItem.title = "New Title"
+
+![](immutable_enum.png)
+
+#New in Swift
+
+So far we have looked at the basics of structs in Swift, all of which are available in Objetive-C as well. Now we will dive into the more exciting features. In this section we will discuss features that make structs a great replacement of classes in many cases.
+
+##Structs can have initializers
+
+Earlier we mentioned the default *memberwise* initializer which is very similar to initializing structs in Objetive-C. In Swift structs can have custom initializers. This is a broad topic because adding a custom initializer has a lot of side effects that we will discuss.
+
+Let's start by adding an initializer. We want the user to be able to create a `TodoItem` only providing an `owner` but not a `title`, `content` or a `dueDate`:
+
+	struct TodoItem {
+	  var title: String
+	  var content: String
+	  var dueDate: NSDate
+	  let owner: String
+	  
+	  init(owner:String) {
+	    self.owner = owner
+	  }
+	}
+	
+	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(), owner:"User1")
+
+Initializers can be created with the `init` keyword. Like regular functions they take a list of parameters, however they don't have a return type. All we need to do in the body of the initializer is map the parameters to member variables. In Swift the `self` keyword is optional. You only are forced to use it in situations as shown above where a parameter name and a member name are the same.
+
+You will realize that the above code does not run in the playground:
+
+![](custom_init.png)
+
+When we implement a custom initializer Swift no longer provides the default *memberwise* initializer. In many cases this OK. If you however want to keep the memberwise initializer and simply provide an additional initializer you can add the initializer to an extension instead of adding it to the struct directly:
+
+	struct TodoItem {
+	  var title: String
+	  var content: String
+	  var dueDate: NSDate
+	  let owner: String
+	}
+
+	extension TodoItem {
+	  init(owner:String) {
+	    self.owner = owner
+	  }
+	}
+
+	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(), owner:"User1")
+
+- inheritance
+- final keyword
+- property observers
+- computed variables
+- 
+
