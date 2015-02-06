@@ -23,9 +23,39 @@ Think of this tutorial series as a more accessible version of the [Apple languag
 
 ##What you're going to learn in this part
 
+* Difference between value and reference types
 * Some basic Swift syntax and language concepts
 * What is new about structs in Swift? What is the same as in Objetive-C?
-* Difference between value and reference types
+
+#Value types vs. reference types
+The Swift language (as many other programing languages, too) provides to fundamentally different types: Value types and reference types. If you've coded in Objetive-C you've worked with reference types almost the entire time, `NSArray`, `NSDictionary`, etc. are all reference types. The only value types in Objetive-C only has very few value types, e.g. `NSInteger` and `CGFloat`. 
+
+The easiest way to explain the difference between value types and reference types is discussing their behaviour when being assigned to variables. Let's first take a look at an example of a reference type in good old Objective-C:
+
+	  NSMutableArray *array1 = [@[@(5), @(8), @(2)] mutableCopy];
+	  NSMutableArray *array2 = array1;
+	  [array1 addObject:@(10)];
+	  // array1: [5,8,2,10]
+	  // array2: [5,8,2,10]
+	  
+In the first line we create an array. Since `NSMutableArray` is a reference type, we are storing a *reference* to the array inside of the variable `array1`. Then we create a second variable `array2` and assign `array1` one to it. In this step the *reference* stored in `array1` gets copied into `array2`. Now `array1` and `array2` are referencing the same array object. If we change the array object through either of these two variables, the *same* array is modified. That means that the changes are reflected in both variables, even if the modification only happend through one of the two variables. A reference type can be referenced by multiple owners. Here's an illustration of what the ownership looks like after the four lines of code above:
+
+![](reference_types.png)
+
+Value types behave different upon assignment. When a value type is assigned to a variable, the variable always stores the *value* itself, not a *reference* to a value. This means whenever a value is assigned to a new variable, that variable gets its own copy of the *value*. A value can always only have one owner. In Swift Arrays are implemented as value types (they are structs!). So let's take a look at the same example in Swift:
+
+	var array1 = [5,8,2]
+	var array2 = array1
+	array1.append(10)
+	// array1: [5,8,2]
+	// array2: [5,8,2,10]
+	
+In the first line we create the array. We assign it to the `array1` variable. At this moment the actual array instance is stored inside of that variable, *not a reference to the value*.
+In the second line we declare a new variable called `array2` and assign `array1` to it. Since Arrays in Swift are value types and value types are copied when assigned to a variable, `array2` gets its private copy of the array stored in `array1`. In the last line we modify the the array stored in `array1`. This time the variable `array2` is not affected by this change, since it has its own private copy that is not affected by changes to the array stoed in the `array1` variable. Here's what the ownership diagram looks like for this example:
+
+![](value_types.png)
+
+
 
 #The Basics
 
@@ -33,7 +63,7 @@ If you have programmend in C or Objective-C before you might be familiar with st
 
 ##Defining a basic struct
 
-Let's start by defining a first struct in our playground:
+Let's start by defining a first struct in our playground: 
 
 	struct TodoItem {
 	  var title: String
@@ -256,5 +286,5 @@ Since structs in Swift can implement methods they can also confirm to protocols!
 
 #Conclusion
 
-
+Why do we think structs are important enough to start our Swift series with discussing them? You will realize that working with structs for modelling some of your app's data can often be easier than using classes.
 
