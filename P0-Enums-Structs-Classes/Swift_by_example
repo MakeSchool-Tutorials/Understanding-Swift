@@ -129,6 +129,70 @@ When we implement a custom initializer Swift no longer provides the default *mem
 
 	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(), owner:"User1")
 
+With this solution you will still run into a compiler error:
+
+![](custom_init_error.png)
+
+What's the problem here? [Apple's documentation](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Initialization.html) states:
+> Classes and structures must set all of their stored properties to an appropriate initial value by the time an instance of that class or structure is created. Stored properties cannot be left in an indeterminate state.
+
+With the initializer we are currently providing we are only setting one out of four values. The values for `title`, `content` and `dueDate` are indetermined when the initializer completes. As shown in the quote this is not allowed in Swift. How can we change the code to compile? There are three options:
+
+* assign some value for the other three members inside of the initializer
+* set a default value for each of the three members
+* mark the three members as *Optional* so that they are allowed to have no value after initialization
+
+The first solution is pretty easy, simply change the initializer to look like this:
+
+	extension TodoItem {
+	  init(owner:String) {
+	    self.owner = owner
+	    self.content = "Default content"
+	    self.title = "Default title"
+	    self.dueDate = NSDate()
+	  }
+	}
+	
+Now we are assigning values to all members and the Swift compiler is satisfied. Finally we can use our new initializer that only takes one parameter:
+
+	var todoItem2 = TodoItem(owner: "User29")
+
+
+The second solution is assigning default values outside of the initializer, direcltly as part of the variable declaration. With the second solution our new struct and the extension with the initializer look like this:
+
+	struct TodoItem {
+	  var title     = "Default title"
+	  var content   = "Default content"
+	  var dueDate   = NSDate()
+	  let owner: String
+	}
+
+	extension TodoItem {
+	  init(owner:String) {
+	    self.owner = owner
+	  }
+	}
+	
+This second solution has a big advantage when you add multiple different initializers. You won't have to repeat the default values inside each of these initializers. Another side effect of assiging default values is that we no longer need to declare the type of variables. This Swift feature is called *type inference*. The compiler automatically detects the type of the value that we are assigning to a variable and uses that type for the variable declaration.
+
+The third possible solution for implementing an initializer that does not receive values for all members is using *Optionals*. Optionals are a new feature in Swift. They are essential and we will discuss them in detail in  a separate tutorial. For now it is enough to know that Optionals are a way to represent values that can contain nothing. Here's what our struct could look like when using Optionals:
+
+	struct TodoItem {
+	  var title: String?
+	  var content: String?
+	  var dueDate: NSDate?
+	  let owner: String
+	}
+
+	extension TodoItem {
+	  init(owner:String) {
+	    self.owner = owner
+	  }
+	}
+
+When we mark the type of a variable as optional we tell the compiler that it is OK if this variable contains no value. Since it is OK for Optionals to contain nothing we are not forced to set an initial value in the initializer. As mentioned earlier we will discuss Optionals separately, for now we'll just remember how they can be used when initializing structs.
+
+
 - inheritance
 - final keyword
 - property observers
