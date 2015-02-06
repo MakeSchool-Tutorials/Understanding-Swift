@@ -13,6 +13,9 @@ We will address all of these questions in a series of articles. Today I want to 
 
 Why are we starting this series with structs? It turns out that, unlike in Objective-C, structs are a very powerful tool in Swift and can be used instead of classes in many cases. Throughout this first tutoiral part we will discuss the most important characteristics of structs and when and how they can be used instead of classes.
 
+##How is this different than the official Apple documentation?
+Think of this tutorial series as a more accessible version of the [Apple language documentation](https://developer.apple.com/library/mac/documentation/Swift/Conceptual/Swift_Programming_Language/index.html). For each topic that we discuss we will have a bunch of examples which you can use in playground. We will modify these examples as we work through the tutorial. We discuss underlying principles in a little more detail to make this series more beginner friendly. We also prefer repeating some information multiple times if that makes it easier for you to learn Swift.
+
 ##What you need for this tutorial series
 * Knowledge in any object oriented programming language
 * (Optionally: Objective-C; we will use Objective-C for comparison reasons)
@@ -41,9 +44,9 @@ Let's start by defining a first struct in our playground:
 
 First and foremost a struct is a collection of variables. This struct models a todo entry. The general syntax for declaring variables in Swift is:
 
-1. `var` or `let` keyword
-2. variable name + `:`
-3. variable type 
+* `var` or `let` keyword
+* variable name + `:`
+* variable type 
 
 We will take about variables and types in detail in a later part of this tutorial series. Then you will learn that defining the type of a variable is not always necessary. For now however we will focus on the details of this struct.
 
@@ -106,7 +109,7 @@ Let's start by adding an initializer. We want the user to be able to create a `T
 	
 	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(), owner:"User1")
 
-Initializers can be created with the `init` keyword. Like regular functions they take a list of parameters, however they don't have a return type. All we need to do in the body of the initializer is map the parameters to member variables. In Swift the `self` keyword is optional. You only are forced to use it in situations as shown above where a parameter name and a member name are the same.
+Initializers can be created with the `init` keyword. Like regular methods they take a list of parameters, however they don't have a return type. All we need to do in the body of the initializer is map the parameters to member variables. In Swift the `self` keyword is optional. You only are forced to use it in situations as shown above where a parameter name and a member name are the same.
 
 You will realize that the above code does not run in the playground:
 
@@ -192,10 +195,66 @@ The third possible solution for implementing an initializer that does not receiv
 
 When we mark the type of a variable as optional we tell the compiler that it is OK if this variable contains no value. Since it is OK for Optionals to contain nothing we are not forced to set an initial value in the initializer. As mentioned earlier we will discuss Optionals separately, for now we'll just remember how they can be used when initializing structs.
 
+##Structs can have methods
+This is another big difference between C language structs and Swift structs. Formerly structs could only store data, now they can also perform actions. Let's assume we want to present a string in an app that summarizes some information about a todo item. We can add a method to compute that string to our `TodoItem`:
 
-- inheritance
-- final keyword
-- property observers
-- computed variables
-- 
+	struct TodoItem {
+	  var title     = "Default title"
+	  var content   = "Default content"
+	  var dueDate   = NSDate()
+	  let owner: String
+	  
+	  func summary() -> String {
+	    return "\(title) belongs to \(owner)"
+	  }
+	}
+	
+The `func` keyword is used for fuctions and methods in Swift, it is followed by the method name and a parameter list in parantheses. This function takes no parameters since it only operates on the members of the struct. The `->` symbol is placed in front of the return type of Swift methods, this method returns a String.
+
+We can call this method the same way as we would on a class:
+
+	todoItem.summary()
+	
+You should see the following output:
+
+![](function_output.png)
+
+There's a special rule for methods that modify structs. Assume you want a function that sets the due date of a todo item to today. The straightforward implementation would be adding the following function to your struct:
+
+	func makeDueToday() {
+	  dueDate = NSDate()
+	}
+	
+If you do that you will once again see a compiler error:
+
+![](mutating_func_error.png)
+
+Why? By default instance methods of structs cannot modify instance variables. In the last part of this tutorial we will see why this default behavior makes sense for the most ways we use structs in Swift. 
+However, this default behavior can be changed with the `mutating` keyword. By adding the keyword `mutating` to a function we indicate that this function wants to change instance variables of the struct:
+
+	mutating func makeDueToday() {
+     dueDate = NSDate()
+	}
+	
+Now we can call the function and change the `dueDate`:
+
+	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(timeIntervalSinceNow: 60000), owner:"User1")
+	todoItem.makeDueToday()
+	
+You might have guessed it: mutating functions can only be called on structs that are stored in mutable variables (keyword `var`)! Remember, if we store a struct in a variable marked as immutable (keyword `let`) then the struct itself can never be modified. Therefore we also can't call methods that would modify the struct:
+
+	let todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(timeIntervalSinceNow: 60000), owner:"User1")
+	todoItem.makeDueToday()
+	
+You will see this compiler error:
+
+![](constant_mutating_error.png)
+
+##Structs can implement protocols
+
+Since structs in Swift can implement methods they can also confirm to protocols! In practice however this functionality is still pretty limited. Most of the protocols you use when writing iOS apps are currently defined as *Class-Only Protocols* which means that they cannot be implemented by structs. We will discuss protocols in Swift in a later tutorial post and come back to discuss how they can be used with structs.
+
+#Conclusion
+
+
 
