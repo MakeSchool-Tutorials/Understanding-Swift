@@ -11,14 +11,14 @@ At MakeSchool we have decided to switch from Objective-C to Swift for all of our
 
 We will address all of these questions in a series of articles. Today I want to discuss some unique characteristics of the Swift programming language. Specifically we will be discussing structs. We will add further parts to this series until we have covered most of Swift's language features. As always we like to teach by example so you will be working with interactive playgrounds throughout this tutorial.
 
-Why are we starting this series with structs? It turns out that, unlike in Objective-C, structs are a very powerful tool in Swift and can be used instead of classes in many cases. Throughout this first tutoiral part we will discuss the most important characteristics of structs and when and how they can be used instead of classes.
+Why are we starting this series with structs? It turns out that, unlike in Objective-C, structs are a very powerful tool in Swift and can be used instead of classes in many cases. Most of the Swift standard library consists of structs. Throughout this first tutorial part we will discuss the most important characteristics of structs and when and how they can be used instead of classes.
 
 ##How is this different than the official Apple documentation?
 Think of this tutorial series as a more accessible version of the [Apple language documentation](https://developer.apple.com/library/mac/documentation/Swift/Conceptual/Swift_Programming_Language/index.html). For each topic that we discuss we will have a bunch of examples which you can use in playground. We will modify these examples as we work through the tutorial. We discuss underlying principles in a little more detail to make this series more beginner friendly. We also prefer repeating some information multiple times if that makes it easier for you to learn Swift.
 
 ##What you need for this tutorial series
 * Knowledge in any object oriented programming language
-* (Optionally: Objective-C; we will use Objective-C for comparison reasons)
+* (Optionally: Objective-C Knowledge; we will use Objective-C for comparison reasons)
 * MacOS with an Xcode Version of 6.1.1 or higher
 
 ##What you're going to learn in this part
@@ -28,9 +28,9 @@ Think of this tutorial series as a more accessible version of the [Apple languag
 * What is new about structs in Swift? What is the same as in Objetive-C?
 
 #Value types vs. reference types
-The Swift language (as many other programing languages, too) provides to fundamentally different types: Value types and reference types. If you've coded in Objetive-C you've worked with reference types almost the entire time, `NSArray`, `NSDictionary`, etc. are all reference types. The only value types in Objetive-C only has very few value types, e.g. `NSInteger` and `CGFloat`. 
+The Swift language (as many other programing languages, too) provides two fundamentally different types: Value types and reference types. If you've coded in Objective-C you've worked with reference types almost the entire time, `NSArray`, `NSDictionary`, etc. are all reference types. Objective-C only has very few value types, e.g. `NSInteger` and `CGFloat`. 
 
-The easiest way to explain the difference between value types and reference types is discussing their behaviour when being assigned to variables. Let's first take a look at an example of a reference type in good old Objective-C:
+The easiest way to explain the difference between value types and reference types is discussing their behavior when being assigned to variables. Let's first take a look at an example of a reference type in good old Objective-C:
 
 	  NSMutableArray *array1 = [@[@(5), @(8), @(2)] mutableCopy];
 	  NSMutableArray *array2 = array1;
@@ -38,7 +38,7 @@ The easiest way to explain the difference between value types and reference type
 	  // array1: [5,8,2,10]
 	  // array2: [5,8,2,10]
 	  
-In the first line we create an array. Since `NSMutableArray` is a reference type, we are storing a *reference* to the array inside of the variable `array1`. Then we create a second variable `array2` and assign `array1` one to it. In this step the *reference* stored in `array1` gets copied into `array2`. Now `array1` and `array2` are referencing the same array object. If we change the array object through either of these two variables, the *same* array is modified. That means that the changes are reflected in both variables, even if the modification only happend through one of the two variables. A reference type can be referenced by multiple owners. Here's an illustration of what the ownership looks like after the four lines of code above:
+In the first line we create an array. Since `NSMutableArray` is a reference type, we are storing a *reference* to the array inside of the variable `array1`. Then we create a second variable `array2` and assign `array1` one to it. In this step the *reference* stored in `array1` gets copied into `array2`. Now `array1` and `array2` are referencing the same array object. If we change the array object through either of these two variables, the *same* array is modified. That means that the changes are reflected in both variables, even if the modification only happened through one of the two variables. A reference type can be referenced by multiple owners. Here's an illustration of what the ownership looks like after the four lines of code above:
 
 ![](reference_types.png)
 
@@ -51,19 +51,23 @@ Value types behave different upon assignment. When a value type is assigned to a
 	// array2: [5,8,2,10]
 	
 In the first line we create the array. We assign it to the `array1` variable. At this moment the actual array instance is stored inside of that variable, *not a reference to the value*.
-In the second line we declare a new variable called `array2` and assign `array1` to it. Since Arrays in Swift are value types and value types are copied when assigned to a variable, `array2` gets its private copy of the array stored in `array1`. In the last line we modify the the array stored in `array1`. This time the variable `array2` is not affected by this change, since it has its own private copy that is not affected by changes to the array stoed in the `array1` variable. Here's what the ownership diagram looks like for this example:
+In the second line we declare a new variable called `array2` and assign `array1` to it. Since Arrays in Swift are value types and value types are copied when assigned to a variable, `array2` gets its private copy of the array stored in `array1`. In the last line we modify the the array stored in `array1`. This time the variable `array2` is not affected by this change, since it has its own private copy that is not affected by changes to the array stored in the `array1` variable. Here's what the ownership diagram looks like for this example:
 
 ![](value_types.png) 
 
-Using value types instead of reference types can reduce the amount of bugs in your programs. As shown with this small example making changes to reference types can have side effects that you might not intend. Every variable in your program that is referencing the same object will be effected by such changes. The design of the Swift standard library encourages using structs a lot more frequently than we did in Objective-C, that's why we've devoted this long article solely to structs. Let's dive into using them.
+Using value types instead of reference types can reduce the amount of bugs in your programs. As shown with this small example, making changes to reference types can have side effects that you might not intend. Every variable in your program that is referencing the same object will be effected by such changes. The design of the Swift standard library encourages using structs a lot more frequently than we did in Objective-C, that's why we've devoted this long article solely to structs. Let's dive into using them.
 
 #The Basics
 
-If you have programmend in C or Objective-C before you might be familiar with structs. However, structs in Swift are far more powerful than in C based languages. In Swift a struct is very similar to a class, you will learn the differences shortly. 
+If you have programmed in C or Objective-C before you might be familiar with structs. However, structs in Swift are far more powerful than in C based languages. In Swift a struct is very similar to a class, you will learn the differences shortly. 
 
 ##Defining a basic struct
 
-Let's start by defining a first struct in our playground: 
+To follow along during this tutorial create a playground in Xcode:
+
+![image](create_playground.png)
+
+Now, let's start by defining a first struct: 
 
 	struct TodoItem {
 	  var title: String
@@ -78,7 +82,7 @@ First and foremost a struct is a collection of variables. This struct models a t
 * variable name + `:`
 * variable type 
 
-We will take about variables and types in detail in a later part of this tutorial series. Then you will learn that defining the type of a variable is not always necessary. For now however we will focus on the details of this struct.
+Later in this tutorial you will see that defining the type of a variable is not always necessary. For now however we will focus on the details of this struct.
 
 Variables that belong to a struct are called *members*. The struct has three `var` members: `title`, `content` and `dueDate`. The values of these members can be changed throughout the lifetime of an instance of `TodoItem`. The struct also has one `let` member. The `let` keyword marks constants in Swift. This means that the owner string cannot be changed after a `TodoItem` has been created. 
 
@@ -88,12 +92,11 @@ Here's how you create an instance of this `TodoItem` struct:
 
 	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(), owner:"User1")
 
-If your struct does not define its own initializer Swift provides a default *memberwise initializer*. That default initializer takes each of the fields of the struct as a parameter. This is also the default behavior for structs in Objective-C.
+If your struct does not define its own initializer Swift provides a default *memberwise initializer*. That memberwise initializer takes each of the fields of the struct as a parameter. This is also the default behavior for structs in Objective-C.
 
 ##Modifying a struct
 
-By default modifying struct instances in Swift works the same way as modifying class instances.
-Assume a user would want to change the title of a todo item. We can use this straightforward syntax to modify members:
+Modifying struct instances in Swift works the same way as modifying class instances. Assume a user would want to change the title of a todo item. We can use this straightforward syntax to modify members:
 
 	todoItem.title = "Get 2 Milk"
 	
@@ -108,11 +111,13 @@ Modifying the owner on the other hand will not work because the `owner` member w
 And you will see an error:
 ![](modify_owner.png) 
 
-You can also create immutable instances of a struct. This means that once the instance is created, none of the fields can be modified, not even the fields declared as `var`. This .
-Using the `let` keyword you can create an instance of `TodoItem` that cannot ever be modified:
+You can also create immutable instances of a struct. This means that once the instance is created none of the fields can be modified, not even the fields declared as `var`.
+You can create an immutable instance by using the `let` keyword:
 
 	let unchangeableTodoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate()	owner:"User1") 
 	unchangeableTodoItem.title = "New Title"
+	
+When attempting to modify a field as in the code above, the compiler will display the following error:
 
 ![](immutable_enum.png)
 
@@ -145,7 +150,7 @@ You will realize that the above code does not run in the playground:
 
 ![](custom_init.png)
 
-When we implement a custom initializer Swift no longer provides the default *memberwise* initializer. In many cases this OK. If you however want to keep the memberwise initializer and simply provide an additional initializer you can add the initializer to an extension instead of adding it to the struct directly:
+When we implement a custom initializer, Swift no longer provides the default *memberwise* initializer. In many cases this OK. If you however want to keep the memberwise initializer and simply provide an additional initializer you can add the initializer to an extension instead of adding it to the struct directly (Extensions will be discussed in a later tutorial):
 
 	struct TodoItem {
 	  var title: String
@@ -167,9 +172,9 @@ With this solution you will still run into a compiler error:
 ![](custom_init_error.png)
 
 What's the problem here? [Apple's documentation](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Initialization.html) states:
-> Classes and structures must set all of their stored properties to an appropriate initial value by the time an instance of that class or structure is created. Stored properties cannot be left in an indeterminate state.
+> "Classes and structures must set all of their stored properties to an appropriate initial value by the time an instance of that class or structure is created. Stored properties cannot be left in an indeterminate state."
 
-With the initializer we are currently providing we are only setting one out of four values. The values for `title`, `content` and `dueDate` are indetermined when the initializer completes. As shown in the quote this is not allowed in Swift. How can we change the code to compile? There are three options:
+With the initializer we are currently providing we are only setting one out of four values. The values for `title`, `content` and `dueDate` are undetermined when the initializer completes. As shown in the quote this is not allowed in Swift. How can we change the code to compile? There are three options:
 
 * assign some value for the other three members inside of the initializer
 * set a default value for each of the three members
@@ -191,7 +196,7 @@ Now we are assigning values to all members and the Swift compiler is satisfied. 
 	var todoItem2 = TodoItem(owner: "User29")
 
 
-The second solution is assigning default values outside of the initializer, direcltly as part of the variable declaration. With the second solution our new struct and the extension with the initializer look like this:
+The second solution is assigning default values outside of the initializer, directly as part of the variable declaration. Default values are another new feature in Swift that did not exist in Objective-C. With the second solution our new struct and the extension with the initializer look like this:
 
 	struct TodoItem {
 	  var title     = "Default title"
@@ -206,7 +211,7 @@ The second solution is assigning default values outside of the initializer, dire
 	  }
 	}
 	
-This second solution has a big advantage when you add multiple different initializers. You won't have to repeat the default values inside each of these initializers. Another side effect of assiging default values is that we no longer need to declare the type of variables. This Swift feature is called *type inference*. The compiler automatically detects the type of the value that we are assigning to a variable and uses that type for the variable declaration.
+This second solution has a big advantage when you add multiple different initializers. You won't have to repeat the default values inside each of these initializers. Another side effect of assigning default values is that we no longer need to declare the type of variables. This Swift feature is called *type inference*. The compiler automatically detects the type of the value that we are assigning to a variable.
 
 The third possible solution for implementing an initializer that does not receive values for all members is using *Optionals*. Optionals are a new feature in Swift. They are essential and we will discuss them in detail in  a separate tutorial. For now it is enough to know that Optionals are a way to represent values that can contain nothing. Here's what our struct could look like when using Optionals:
 
@@ -239,7 +244,7 @@ This is another big difference between C language structs and Swift structs. For
 	  }
 	}
 	
-The `func` keyword is used for fuctions and methods in Swift, it is followed by the method name and a parameter list in parantheses. This function takes no parameters since it only operates on the members of the struct. The `->` symbol is placed in front of the return type of Swift methods, this method returns a String.
+The `func` keyword is used for functions and methods in Swift, it is followed by the method name and a parameter list in parentheses. This function takes no parameters since it only operates on the members of the struct. The `->` symbol is placed in front of the return type of Swift methods, this method returns a String.
 
 We can call this method the same way as we would on a class:
 
@@ -249,7 +254,7 @@ You should see the following output:
 
 ![](function_output.png)
 
-There's a special rule for methods that modify structs. Assume you want a function that sets the due date of a todo item to today. The straightforward implementation would be adding the following function to your struct:
+There's a special rule for methods that make changes to structs. Assume you want a function that sets the due date of a todo item to today. The straightforward implementation would be adding the following function to your struct (`NSDate()` creates a date instance with the current timestamp):
 
 	func makeDueToday() {
 	  dueDate = NSDate()
@@ -286,7 +291,9 @@ Since structs in Swift can implement methods they can also confirm to protocols!
 
 #Conclusion
 
-Why do we think structs are important enough to start our Swift series with discussing them? You will realize that working with structs for modelling some of your app's data can often be easier than using classes. As discussed at the beginning of this post, structs are value types. That means they can only have one owner and are always copied when assigned to a new variable or sent to a method or function. That makes your code inherently safer; making changes to a struct will not affect other parts of your program. For this reason most of the Swift standard library uses structs instead of classes, Arrays, Dictionaries, etc. are all structs. Best practices for Swift are still about the evolve, it will be interesting to see how many developers will use structs over classes.
+Why do we think structs are important enough to start our Swift series with discussing them? You will realize that working with structs for modeling some of your app's data can often be easier than using classes. As discussed at the beginning of this post, structs are value types. That means they can only have one owner and are always copied when assigned to a new variable or sent to a method or function. That makes your code inherently safer; making changes to a struct will not affect other parts of your program. For this reason most of the Swift standard library uses structs instead of classes, Arrays, Dictionaries, etc. are all structs. Additionally the `let` keywords allows us to create immutable struct instances. If we have data that should not be changed after initialization we can ensure that at compile time when using structs (that is not true for classes as we will see soon!). Best practices for Swift are still about the evolve, it will be interesting to see how many developers will use structs over classes.
+
+If you want to learn more about Swift and ship your own original iPhone App or iPhone Game you should attend our [Summer Academy](https://makeschool.com/apply?referrer=54750)!
 
 Stay tuned for more tutorials of this series!
 
