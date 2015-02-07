@@ -42,7 +42,7 @@ In the first line we create an array. Since `NSMutableArray` is a reference type
 
 ![](reference_types.png)
 
-Value types behave different upon assignment. When a value type is assigned to a variable, the variable always stores the *value* itself, not a *reference* to a value. This means whenever a value is assigned to a new variable, that variable gets its own copy of the *value*. A value can always only have one owner. In Swift Arrays are implemented as value types (they are structs!). So let's take a look at the same example in Swift:
+Value types behave different upon assignment. When a value type is assigned to a variable the variable always stores the *value* itself, not a *reference* to a value. This means whenever a value is assigned to a new variable, that variable gets its own copy of the *value*. A value can always only have one owner. In Swift Arrays are implemented as value types (they are structs!). So let's take a look at the same example in Swift:
 
 	var array1 = [5,8,2]
 	var array2 = array1
@@ -53,9 +53,9 @@ Value types behave different upon assignment. When a value type is assigned to a
 In the first line we create the array. We assign it to the `array1` variable. At this moment the actual array instance is stored inside of that variable, *not a reference to the value*.
 In the second line we declare a new variable called `array2` and assign `array1` to it. Since Arrays in Swift are value types and value types are copied when assigned to a variable, `array2` gets its private copy of the array stored in `array1`. In the last line we modify the the array stored in `array1`. This time the variable `array2` is not affected by this change, since it has its own private copy that is not affected by changes to the array stoed in the `array1` variable. Here's what the ownership diagram looks like for this example:
 
-![](value_types.png)
+![](value_types.png) 
 
-
+Using value types instead of reference types can reduce the amount of bugs in your programs. As shown with this small example making changes to reference types can have side effects that you might not intend. Every variable in your program that is referencing the same object will be effected by such changes. The design of the Swift standard library encourages using structs a lot more frequently than we did in Objective-C, that's why we've devoted this long article solely to structs. Let's dive into using them.
 
 #The Basics
 
@@ -286,5 +286,7 @@ Since structs in Swift can implement methods they can also confirm to protocols!
 
 #Conclusion
 
-Why do we think structs are important enough to start our Swift series with discussing them? You will realize that working with structs for modelling some of your app's data can often be easier than using classes.
+Why do we think structs are important enough to start our Swift series with discussing them? You will realize that working with structs for modelling some of your app's data can often be easier than using classes. As discussed at the beginning of this post, structs are value types. That means they can only have one owner and are always copied when assigned to a new variable or sent to a method or function. That makes your code inherently safer; making changes to a struct will not affect other parts of your program. For this reason most of the Swift standard library uses structs instead of classes, Arrays, Dictionaries, etc. are all structs. Best practices for Swift are still about the evolve, it will be interesting to see how many developers will use structs over classes.
+
+Stay tuned for more tutorials of this series!
 
