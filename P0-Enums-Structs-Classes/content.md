@@ -3,7 +3,7 @@ title: "Understanding Swift by example - Part 1: Structs"
 slug: structs-in-swift
 ---     
 
-At MakeSchool we have decided to switch from Objective-C to Swift for all of our new online content and courses. We get a lot of questions from the community regarding Swift:
+At Make School we have decided to switch from Objective-C to Swift for all of our new online content and courses. We get a lot of questions from the community regarding Swift:
 
 * Should I learn Swift or Objective-C?
 * Which of the two languages is easier to learn?
@@ -11,7 +11,7 @@ At MakeSchool we have decided to switch from Objective-C to Swift for all of our
 
 We will address all of these questions in a series of articles, adding to this series until we have covered most of Swift's language features.
 
-#Part 1: Structs
+#Article 1: Structs
 Today I want to discuss some unique characteristics of the Swift programming language. Specifically we will be discussing structs. As always, we like to teach by example so you will be working with interactive playgrounds throughout this tutorial.
 
 ###Why are we starting this series with structs? 
@@ -31,6 +31,8 @@ Think of this tutorial series as a more accessible version of the [Apple languag
 * What is new about structs in Swift? What is the same as in Objetive-C?
 
 ##Value types vs. reference types
+Our subject is structs, but first let's take a look at value and reference types. Understanding the differences between these two will help strengthen our understanding of how structs behave.
+
 The Swift language (as well as many other programing languages, too) provides two fundamentally different types: value types and reference types. If you've coded in Objective-C you've worked with reference types almost the entire time. `NSArray`, `NSDictionary`, etc. are all reference types. Objective-C has very few value types, e.g. `NSInteger` and `CGFloat`. 
 
 ###Reference Types
@@ -69,7 +71,9 @@ This time the variable `array2` is not affected by this change, since it has its
 
 Using value types instead of reference types can reduce the amount of bugs in your programs. As shown with this small example, making changes to reference types can have side effects that you might not intend. Every variable in your program that is referencing the same object will be effected by such changes. The design of the Swift standard library encourages using structs a lot more frequently than we did in Objective-C, that's why we've devoted this long article solely to structs. Let's dive into using them.
 
-#The Basics
+#Struct Basics
+
+Now that we've got a handle on the different types, we're ready to dive into the main topic of this article.
 
 If you have programmed in C or Objective-C before you might be familiar with structs. However, structs in Swift are far more powerful than in C based languages. In Swift a struct is very similar to a class - you will learn the differences shortly. 
 
