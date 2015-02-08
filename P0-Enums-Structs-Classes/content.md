@@ -9,26 +9,29 @@ At MakeSchool we have decided to switch from Objective-C to Swift for all of our
 * Which of the two languages is easier to learn?
 * What are the differences between Objective-C and Swift?
 
-We will address all of these questions in a series of articles. Today I want to discuss some unique characteristics of the Swift programming language. Specifically we will be discussing structs. We will add further parts to this series until we have covered most of Swift's language features. As always we like to teach by example so you will be working with interactive playgrounds throughout this tutorial.
+We will address all of these questions in a series of articles, adding to this series until we have covered most of Swift's language features.
 
-Why are we starting this series with structs? It turns out that, unlike in Objective-C, structs are a very powerful tool in Swift and can be used instead of classes in many cases. Most of the Swift standard library consists of structs. Throughout this first tutorial part we will discuss the most important characteristics of structs and when and how they can be used instead of classes.
+#Part 1: Structs
+Today I want to discuss some unique characteristics of the Swift programming language. Specifically we will be discussing structs. As always, we like to teach by example so you will be working with interactive playgrounds throughout this tutorial.
+
+##Why are we starting this series with structs? 
+It turns out that, unlike in Objective-C, structs are a very powerful tool in Swift and can be used instead of classes in many cases. Most of the Swift standard library consists of structs. Throughout this first tutorial part we will discuss the most important characteristics of structs and when and how they can be used instead of classes.
 
 ##How is this different than the official Apple documentation?
-Think of this tutorial series as a more accessible version of the [Apple language documentation](https://developer.apple.com/library/mac/documentation/Swift/Conceptual/Swift_Programming_Language/index.html). For each topic that we discuss we will have a bunch of examples which you can use in playground. We will modify these examples as we work through the tutorial. We discuss underlying principles in a little more detail to make this series more beginner friendly. We also prefer repeating some information multiple times if that makes it easier for you to learn Swift.
+Think of this tutorial series as a more accessible version of the [Apple language documentation](https://developer.apple.com/library/mac/documentation/Swift/Conceptual/Swift_Programming_Language/index.html). For each topic that we discuss we will have a bunch of examples which you can use in the playground. We will modify these examples as we work through the tutorial. We'll discuss underlying principles in a little more detail as well as repeating key information to make this series more beginner friendly.
 
-##What you need for this tutorial series
+##What do you need for this tutorial series?
 * Knowledge in any object oriented programming language
-* (Optionally: Objective-C Knowledge; we will use Objective-C for comparison reasons)
 * MacOS with an Xcode Version of 6.1.1 or higher
+* Optional: Objective-C knowledge, since we use Objective-C for comparison reasons
 
-##What you're going to learn in this part
-
+##What are you going to learn in this article?
 * Difference between value and reference types
 * Some basic Swift syntax and language concepts
 * What is new about structs in Swift? What is the same as in Objetive-C?
 
 #Value types vs. reference types
-The Swift language (as many other programing languages, too) provides two fundamentally different types: Value types and reference types. If you've coded in Objective-C you've worked with reference types almost the entire time, `NSArray`, `NSDictionary`, etc. are all reference types. Objective-C only has very few value types, e.g. `NSInteger` and `CGFloat`. 
+The Swift language (as well as many other programing languages, too) provides two fundamentally different types: value types and reference types. If you've coded in Objective-C you've worked with reference types almost the entire time. `NSArray`, `NSDictionary`, etc. are all reference types. Objective-C has very few value types, e.g. `NSInteger` and `CGFloat`. 
 
 The easiest way to explain the difference between value types and reference types is discussing their behavior when being assigned to variables. Let's first take a look at an example of a reference type in good old Objective-C:
 
@@ -38,7 +41,9 @@ The easiest way to explain the difference between value types and reference type
 	  // array1: [5,8,2,10]
 	  // array2: [5,8,2,10]
 	  
-In the first line we create an array. Since `NSMutableArray` is a reference type, we are storing a *reference* to the array inside of the variable `array1`. Then we create a second variable `array2` and assign `array1` one to it. In this step the *reference* stored in `array1` gets copied into `array2`. Now `array1` and `array2` are referencing the same array object. If we change the array object through either of these two variables, the *same* array is modified. That means that the changes are reflected in both variables, even if the modification only happened through one of the two variables. A reference type can be referenced by multiple owners. Here's an illustration of what the ownership looks like after the four lines of code above:
+In the first line we create an array. Since `NSMutableArray` is a reference type, we are storing a *reference* to the array inside of the variable `array1`. Then we create a second variable `array2` and assign `array1` one to it. In this step the *reference* stored in `array1` gets copied into `array2`. Now `array1` and `array2` are referencing the same array object. If we change the array object through either of these two variables, the *same* array is modified. That means that the changes are reflected in both variables, even if the modification only happened through one of the two variables. 
+
+A reference type can be referenced by multiple owners. Here's an illustration of what the ownership looks like after the four lines of code above:
 
 ![](reference_types.png)
 
