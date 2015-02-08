@@ -1,5 +1,6 @@
-title: Playing Sounds in Cocos2D
+title: Learn Swift 
 cover: cover.png
-gamernews_id: 355
 teaser_text: |
-    This tutorial gives you an introduction to everything you need to know about the new Sound API OALSimpleAudio.
+    This tutorial is the first part of our Learn Swift series. We will discuss the concept of structs in detail. 
+    You'll learn why they are a great tool for writing Swift code.
+    
