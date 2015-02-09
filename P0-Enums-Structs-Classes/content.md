@@ -68,8 +68,8 @@ Value types behave different upon assignment. When a value type is assigned to a
 	var array1 = [5,8,2]
 	var array2 = array1
 	array1.append(10)
-	// array1: [5,8,2]
-	// array2: [5,8,2,10]
+	// array1: [5,8,2,10]
+	// array2: [5,8,2]
 	
 In the first line we create the array. We assign it to the `array1` variable. At this moment the actual array instance is stored inside of that variable, *not a reference to the value*.
 
