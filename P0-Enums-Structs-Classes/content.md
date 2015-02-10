@@ -53,7 +53,7 @@ The easiest way to explain the difference between value types and reference type
 	  NSMutableArray *array2 = array1;
 	  [array1 addObject:@(10)];
 	  // array1: [5,8,2,10]
-	  // array2: [5,8,2,10]
+	  // array2: [5,8,2,10]	  
 	  
 In the first line we create an array. Since `NSMutableArray` is a reference type, we are storing a *reference* to the array inside of the variable `array1`. Then we create a second variable `array2` and assign `array1` one to it. In this step the *reference* stored in `array1` gets copied into `array2`. Now `array1` and `array2` are referencing the same array object. If we change the array object through either of these two variables, the *same* array is modified. That means that the changes are reflected in both variables, even if the modification only happened through one of the two variables. 
 
@@ -114,7 +114,13 @@ Variables that belong to a struct are called *members*. The struct has three `va
 
 Here's how you create an instance of this `TodoItem` struct:
 
-	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(), owner:"User1")
+```swift
+var todoItem = TodoItem(
+  title: "Get Milk",
+  content: "really urgent!",
+  dueDate: NSDate(),
+  owner: "User1")
+```
 
 If your struct does not define its own initializer Swift provides a default *memberwise initializer*. That memberwise initializer takes each of the fields of the struct as a parameter. This is also the default behavior for structs in Objective-C.
 
@@ -138,8 +144,13 @@ And you will see an error:
 You can also create immutable instances of a struct. This means that once the instance is created none of the fields can be modified, not even the fields declared as `var`.
 You can create an immutable instance by using the `let` keyword:
 
-	let unchangeableTodoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate()	owner:"User1") 
-	unchangeableTodoItem.title = "New Title"
+    let unchangeableTodoItem = TodoItem(
+      title: "Get Milk",
+      content: "really urgent!",
+      dueDate: NSDate()
+      owner:"User1")
+
+    unchangeableTodoItem.title = "New Title"
 	
 When attempting to modify a field as in the code above, the compiler will display the following error:
 
@@ -166,7 +177,11 @@ Let's start by adding an initializer. We want the user to be able to create a `T
 	  }
 	}
 	
-	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(), owner:"User1")
+    var todoItem = TodoItem(
+      title: "Get Milk",
+      content: "really urgent!",
+      dueDate: NSDate(),
+      owner:"User1")
 
 Initializers can be created with the `init` keyword. Like regular methods they take a list of parameters, however they don't have a return type. All we need to do in the body of the initializer is map the parameters to member variables. In Swift the `self` keyword is optional. You only are forced to use it in situations as shown above where a parameter name and a member name are the same.
 
@@ -189,7 +204,11 @@ When we implement a custom initializer, Swift no longer provides the default *me
 	  }
 	}
 
-	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(), owner:"User1")
+    var todoItem = TodoItem(
+      title: "Get Milk",
+      content: "really urgent!",
+      dueDate: NSDate(),
+      owner:"User1")
 
 With this solution you will still run into a compiler error:
 
@@ -308,13 +327,23 @@ However, this default behavior can be changed with the `mutating` keyword. By ad
 	
 Now we can call the function and change the `dueDate`:
 
-	var todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(timeIntervalSinceNow: 60000), owner:"User1")
-	todoItem.makeDueToday()
+    var todoItem = TodoItem(
+      title: "Get Milk",
+      content: "really urgent!",
+      dueDate: NSDate(timeIntervalSinceNow: 60000),
+      owner:"User1")
+
+    todoItem.makeDueToday()
 	
 You might have guessed it: mutating functions can only be called on structs that are stored in mutable variables (keyword `var`)! Remember, if we store a struct in a variable marked as immutable (keyword `let`) then the struct itself can never be modified. Therefore we also can't call methods that would modify the struct:
 
-	let todoItem = TodoItem(title: "Get Milk", content: "really urgent!", dueDate: NSDate(timeIntervalSinceNow: 60000), owner:"User1")
-	todoItem.makeDueToday()
+    let todoItem = TodoItem(
+      title: "Get Milk",
+      content: "really urgent!",
+      dueDate: NSDate(timeIntervalSinceNow: 60000),
+      owner:"User1")
+
+    todoItem.makeDueToday()
 	
 You will see this compiler error:
 
@@ -337,4 +366,3 @@ Best practices for Swift are still about the evolve, it will be interesting to s
 If you want to learn more about Swift and ship your own original iPhone App or iPhone Game you should attend our [Summer Academy](https://makeschool.com/apply?referrer=54750)!
 
 Stay tuned for more tutorials of this series!
-
