@@ -114,7 +114,7 @@ Variables that belong to a struct are called *members*. The struct has three `va
 
 Here's how you create an instance of this `TodoItem` struct:
 
-```swift
+``` swift
 var todoItem = TodoItem(
   title: "Get Milk",
   content: "really urgent!",
