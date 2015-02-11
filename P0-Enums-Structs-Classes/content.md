@@ -63,7 +63,7 @@ A reference type can be referenced by multiple owners. Here's an illustration of
 
 ##Value types
 
-Value types behave different upon assignment. When a value type is assigned to a variable the variable always stores the *value* itself, not a *reference* to a value. This means whenever a value is assigned to a new variable, that variable gets its own copy of the *value*. A value can always only have one owner. In Swift Arrays are implemented as value types (they are structs!). So let's take a look at the same example in Swift:
+Value types behave different upon assignment. When a value type is assigned to a variable the variable always stores the *value* itself, not a *reference* to a value. This means whenever a value is assigned to a new variable, that variable gets its own copy of the *value*. A value can always only have one owner. In Swift, arrays are implemented as value types (they are structs!). So let's take a look at the same example in Swift:
 
 	var array1 = [5,8,2]
 	var array2 = array1
@@ -83,7 +83,7 @@ Using value types instead of reference types can reduce the amount of bugs in yo
 
 #Struct Basics
 
-If you have programmed in C or Objective-C before you might be familiar with structs. However, structs in Swift are far more powerful than in C based languages. In Swift a struct is very similar to a class, you will learn the differences shortly. 
+If you have programmed in C or Objective-C before you might be familiar with structs. However, structs in Swift are far more powerful than in C based languages. In Swift, a struct is very similar to a class, you will learn the differences shortly. 
 
 ##Defining a basic struct
 
