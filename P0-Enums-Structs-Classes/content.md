@@ -114,13 +114,12 @@ Variables that belong to a struct are called *members*. The struct has three `va
 
 Here's how you create an instance of this `TodoItem` struct:
 
-``` swift
-var todoItem = TodoItem(
-  title: "Get Milk",
-  content: "really urgent!",
-  dueDate: NSDate(),
-  owner: "User1")
-```
+    var todoItem = TodoItem(
+      title: "Get Milk",
+      content: "really urgent!",
+      dueDate: NSDate(),
+      owner: "User1")
+
 
 If your struct does not define its own initializer Swift provides a default *memberwise initializer*. That memberwise initializer takes each of the fields of the struct as a parameter. This is also the default behavior for structs in Objective-C.
 
