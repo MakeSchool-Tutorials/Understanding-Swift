@@ -59,7 +59,7 @@ In the first line we create an array. Since `NSMutableArray` is a reference type
 
 A reference type can be referenced by multiple owners. Here's an illustration of what the ownership looks like after the four lines of code above:
 
-![](reference_types.png)
+![Reference types](reference_types.png)
 
 ##Value types
 
@@ -77,7 +77,7 @@ In the second line we declare a new variable called `array2` and assign `array1`
 
 This time the variable `array2` is not affected by this change, since it has its own private copy that is not affected by changes to the array stored in the `array1` variable. Here's what the ownership diagram looks like for this example:
 
-![](value_types.png) 
+![Value types](value_types.png) 
 
 Using value types instead of reference types can reduce the amount of bugs in your programs. As shown with this small example, making changes to reference types can have side effects that you might not intend. Every variable in your program that is referencing the same object will be effected by such changes. The design of the Swift standard library encourages using structs a lot more frequently than we did in Objective-C, that's why we've devoted this long article solely to structs. Let's dive into using them.
 
@@ -89,7 +89,7 @@ If you have programmed in C or Objective-C before you might be familiar with str
 
 To follow along during this tutorial create a playground in Xcode:
 
-![image](create_playground.png)
+![Creating a new playground](create_playground.png)
 
 Now, let's start by defining a first struct: 
 
@@ -131,14 +131,14 @@ Modifying struct instances in Swift works the same way as modifying class instan
 	
 The playground should visualize that your struct has been updated correctly:
 
-![](modify_title.png) 
+![Modifying the title](modify_title.png) 
 
 Modifying the owner on the other hand will not work because the `owner` member was marked as constant. Try this:
 
 	todoItem.owner = "User25"
 
 And you will see an error:
-![](modify_owner.png) 
+![Cannot assign to owner in todoItem](modify_owner.png) 
 
 You can also create immutable instances of a struct. This means that once the instance is created none of the fields can be modified, not even the fields declared as `var`.
 You can create an immutable instance by using the `let` keyword:
@@ -153,7 +153,7 @@ You can create an immutable instance by using the `let` keyword:
 	
 When attempting to modify a field as in the code above, the compiler will display the following error:
 
-![](immutable_enum.png)
+![Cannot assign to title in unchangeableTodoItem](immutable_enum.png)
 
 #New in Swift
 
@@ -186,7 +186,7 @@ Initializers can be created with the `init` keyword. Like regular methods they t
 
 You will realize that the above code does not run in the playground:
 
-![](custom_init.png)
+![Extra argument title in call](custom_init.png)
 
 When we implement a custom initializer, Swift no longer provides the default *memberwise* initializer. In many cases this is OK. If however, you want to keep the memberwise initializer and simply provide an additional initializer you can add the initializer to an extension instead of adding it to the struct directly (Extensions will be discussed in a future tutorial):
 
@@ -211,7 +211,7 @@ When we implement a custom initializer, Swift no longer provides the default *me
 
 With this solution you will still run into a compiler error:
 
-![](custom_init_error.png)
+![Variable self.title used before being initialized](custom_init_error.png)
 
 What's the problem here? 
 
@@ -303,7 +303,7 @@ We can call this method the same way as we would on a class:
 	
 You should see the following output:
 
-![](function_output.png)
+![Function output](function_output.png)
 
 There's a special rule for methods that make changes to structs. Assume you want a function that sets the due date of a todo item to today. The straightforward implementation would be adding the following function to your struct (`NSDate()` creates a date instance with the current timestamp):
 
@@ -313,7 +313,7 @@ There's a special rule for methods that make changes to structs. Assume you want
 	
 If you do that you will once again see a compiler error:
 
-![](mutating_func_error.png)
+![Cannot assign to dueDate in self](mutating_func_error.png)
 
 Why? 
 
@@ -346,7 +346,7 @@ You might have guessed it: mutating functions can only be called on structs that
 	
 You will see this compiler error:
 
-![](constant_mutating_error.png)
+![Immutable value of type TodoItem only has mutating members named makeDueToday](constant_mutating_error.png)
 
 ##Structs can implement protocols
 
