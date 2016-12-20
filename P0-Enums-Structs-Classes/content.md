@@ -365,3 +365,7 @@ Best practices for Swift are still about the evolve, it will be interesting to s
 If you want to learn more about Swift and ship your own original iPhone App or iPhone Game you should attend our [Summer Academy](https://makeschool.com/apply?referrer=54750)!
 
 Stay tuned for more tutorials of this series!
+
+##Additional readings
+
+- [objc.io - A Warm Welcome to Structs and Value Types](http://www.objc.io/issue-16/swift-classes-vs-structs.html)
